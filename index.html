@@ -3,311 +3,273 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#f7eff2">
-  <meta name="description" content="Perfil estudiantil, intereses y aspiraciones personales.">
-  <title>Mi perfil estudiantil</title>
+  <meta name="theme-color" content="#f8eff3">
+  <meta name="description" content="Perfil estudiantil: presentación, metas e intereses personales y tecnológicos.">
+  <title>Perfil estudiantil | Mi espacio</title>
   <style>
     :root {
       color-scheme: light;
-      --ink: #34425b;
-      --muted: #78849a;
-      --rose: #ce8fa6;
-      --rose-dark: #9c657d;
-      --blue: #8faec5;
-      --line: #e9e5e9;
+      --ink: #384354;
+      --muted: #687487;
+      --pink: #e7b9c9;
+      --pink-dark: #9c647a;
+      --blue: #c4d8e8;
+      --blue-dark: #5f7c96;
       --paper: #fffdfd;
-      --serif: Georgia, "Times New Roman", serif;
-      --script: "Segoe Script", "Lucida Handwriting", "Brush Script MT", cursive;
+      --line: #eee5e9;
     }
 
     * {
       box-sizing: border-box;
     }
 
-    [hidden] {
-      display: none !important;
-    }
-
     body {
       min-width: 320px;
       min-height: 100vh;
-      min-height: 100svh;
       margin: 0;
       padding: clamp(14px, 3vw, 36px);
       color: var(--ink);
       background:
-        radial-gradient(ellipse at 9% 12%, rgba(232, 198, 211, .48), transparent 31%),
-        radial-gradient(ellipse at 94% 88%, rgba(187, 211, 227, .48), transparent 32%),
-        #f7f4f5;
-      font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+        radial-gradient(ellipse at 8% 12%, #f8e6ed 0, transparent 34%),
+        radial-gradient(ellipse at 93% 88%, #e5eff7 0, transparent 34%),
+        #f7f6f7;
+      font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+      font-size: 15px;
       line-height: 1.65;
     }
 
-    button,
-    input {
-      font: inherit;
-    }
-
     .page {
-      width: min(100%, 980px);
+      display: grid;
       min-height: calc(100vh - clamp(28px, 6vw, 72px));
-      min-height: calc(100svh - clamp(28px, 6vw, 72px));
-      margin: 0 auto;
-      overflow: hidden;
-      border: 1px solid rgba(220, 210, 218, .8);
-      border-radius: 20px;
-      background: var(--paper);
-      box-shadow: 0 20px 60px rgba(68, 61, 75, .09);
+      place-items: center;
     }
 
-    .top-rule {
-      height: 5px;
-      background: linear-gradient(90deg, #dba8ba, #b8d0df 52%, #dba8ba);
+    .profile-card {
+      position: relative;
+      width: min(100%, 980px);
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      border-radius: 22px;
+      background: var(--paper);
+      box-shadow: 0 18px 55px rgba(67, 75, 92, 0.1);
+    }
+
+    .profile-card::before {
+      position: absolute;
+      inset: 0 0 auto;
+      height: 7px;
+      background: linear-gradient(90deg, var(--pink), #e8d5df 48%, var(--blue));
+      content: "";
     }
 
     .hero {
-      position: relative;
-      padding: 38px 28px 30px;
+      display: grid;
+      justify-items: center;
+      padding: 34px 34px 24px;
       text-align: center;
-      background: linear-gradient(180deg, #fbf4f6, #fffdfd);
     }
 
-    .portrait-button {
-      display: block;
+    .portrait-frame {
+      display: grid;
       width: 116px;
       height: 116px;
-      margin: 0 auto 15px;
-      padding: 0;
-      overflow: hidden;
-      border: 3px solid #fff;
+      place-items: center;
+      margin-bottom: 12px;
+      padding: 5px;
+      border: 1px solid #e8cad5;
       border-radius: 50%;
-      background: #e9d8df;
-      box-shadow: 0 0 0 1px #e3c9d4, 0 5px 15px rgba(75, 58, 69, .12);
-      cursor: pointer;
-      transition: box-shadow .2s ease, transform .2s ease;
+      background: linear-gradient(145deg, #f8e8ee, #eaf2f8);
+      box-shadow: 0 6px 18px rgba(96, 95, 112, 0.1);
     }
 
-    .portrait-button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 0 0 3px #dfb4c4, 0 7px 18px rgba(75, 58, 69, .15);
-    }
-
-    .portrait-button:focus-visible {
-      outline: 3px solid var(--blue);
-      outline-offset: 4px;
-    }
-
-    .portrait-button img,
-    .portrait-placeholder {
+    .portrait {
       display: block;
       width: 100%;
-      height: 100%;
-    }
-
-    .portrait-button img {
+      height: 85%;
+      border-radius: 100%;
       object-fit: cover;
+
     }
 
-    .portrait-placeholder {
-      display: grid;
+    .portrait-fallback {
+      display: none;
+      width: 100%;
+      height: 100%;
       place-items: center;
-      color: #966c7d;
-    }
-
-    .portrait-placeholder svg {
-      width: 66px;
-      height: 66px;
+      padding: 12px;
+      border-radius: 50%;
+      color: var(--blue-dark);
+      background: #eaf2f8;
+      font-size: 12px;
+      line-height: 1.35;
     }
 
     .eyebrow {
-      margin: 0 0 2px;
-      color: var(--rose-dark);
-      font-family: var(--script);
-      font-size: 15px;
-      letter-spacing: .04em;
+      margin: 2px 0 0;
+      color: var(--pink-dark);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
     }
 
     h1 {
       margin: 0;
-      color: #39445b;
-      font-family: var(--serif);
-      font-size: clamp(27px, 4vw, 39px);
+      color: #39475a;
+      font-family: "Segoe Script", "Brush Script MT", cursive;
+      font-size: clamp(30px, 5vw, 43px);
       font-weight: 500;
-      line-height: 1.2;
+      line-height: 1.3;
     }
 
     .subtitle {
-      margin: 8px 0 0;
+      margin: 3px 0 0;
       color: var(--muted);
-      font-family: "Segoe UI", Arial, sans-serif;
       font-size: 13px;
-      letter-spacing: .12em;
-      text-transform: uppercase;
+      letter-spacing: 0.04em;
     }
 
-    .divider {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      margin-top: 21px;
-      color: var(--rose);
-      font-size: 14px;
-    }
-
-    .divider::before,
-    .divider::after {
-      width: 52px;
-      height: 1px;
-      background: #e7dce1;
-      content: "";
-    }
-
-    main {
+    .content {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-      gap: 0 34px;
-      padding: 8px 46px 38px;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 16px;
+      padding: 0 30px 24px;
     }
 
-    .section {
-      padding: 22px 0 19px;
-      border-bottom: 1px solid var(--line);
+    .column {
+      display: grid;
+      align-content: start;
+      gap: 14px;
     }
 
-    .section:first-child {
-      grid-column: 1 / -1;
+    .panel {
+      padding: 17px 19px;
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      background: #fff;
+    }
+
+    .panel.profile {
+      background: linear-gradient(145deg, #fffafb, #fff);
+    }
+
+    .panel.goals {
+      background: linear-gradient(145deg, #f5f9fc, #fff);
+    }
+
+    .panel.personal {
+      background: linear-gradient(145deg, #fff8fa, #fff);
+    }
+
+    .panel.technology {
+      background: linear-gradient(145deg, #f5f9fc, #fff);
     }
 
     h2 {
       display: flex;
       align-items: center;
-      gap: 10px;
-      margin: 0 0 12px;
-      color: var(--rose-dark);
-      font-family: var(--serif);
-      font-size: 20px;
+      gap: 9px;
+      margin: 0 0 9px;
+      color: #49576a;
+      font-family: "Segoe Script", "Brush Script MT", cursive;
+      font-size: 22px;
       font-weight: 500;
+      line-height: 1.35;
     }
 
-    .section-icon {
-      display: grid;
-      width: 30px;
-      height: 30px;
-      flex: 0 0 30px;
+    .heading-mark {
+      display: inline-grid;
+      width: 26px;
+      height: 26px;
+      flex: 0 0 26px;
       place-items: center;
-      border-radius: 50%;
-      background: #f7eaf0;
-      color: var(--rose-dark);
-      font-family: "Segoe UI Symbol", sans-serif;
-      font-size: 15px;
-    }
-
-    .section:nth-child(3) .section-icon,
-    .section:nth-child(5) .section-icon {
-      background: #eaf2f7;
-      color: #668aa5;
-    }
-
-    .bio {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 5px 22px;
-      margin: 0;
-      color: #59657a;
-      font-size: 14px;
-    }
-
-    .bio span {
-      position: relative;
-      padding-left: 14px;
-    }
-
-    .bio span::before {
-      position: absolute;
-      top: .68em;
-      left: 0;
-      width: 5px;
-      height: 5px;
-      border-radius: 50%;
-      background: #d7a5b7;
-      content: "";
-    }
-
-    .goals {
-      display: grid;
-      gap: 11px;
-    }
-
-    .goal {
-      padding-left: 12px;
-      border-left: 2px solid #dcb0c0;
-    }
-
-    .goal:nth-child(2) {
-      border-color: #a9c5d8;
-    }
-
-    .goal h3 {
-      margin: 0 0 2px;
-      color: #526077;
+      border-radius: 9px;
+      color: var(--pink-dark);
+      background: #f8e9ef;
       font-family: "Segoe UI", Arial, sans-serif;
-      font-size: 12px;
-      font-weight: 650;
-      letter-spacing: .07em;
-      text-transform: uppercase;
-    }
-
-    .goal p,
-    .section-copy {
-      margin: 0;
-      color: #657187;
       font-size: 14px;
     }
 
-    .interest-list {
-      display: flex;
-      flex-wrap: wrap;
+    .goals .heading-mark,
+    .technology .heading-mark {
+      color: var(--blue-dark);
+      background: #eaf2f8;
+    }
+
+    .intro-lines {
+      margin: 0;
+      color: #5d6878;
+      font-size: 13px;
+      line-height: 1.58;
+    }
+
+    .intro-lines span {
+      display: block;
+    }
+
+    .goal-list {
+      display: grid;
       gap: 8px;
       margin: 0;
       padding: 0;
       list-style: none;
     }
 
+    .goal-list li {
+      padding-left: 14px;
+      color: #5d6878;
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .goal-list strong {
+      color: #45566b;
+    }
+
+    .goal-list li::before {
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      margin: 0 8px 2px -14px;
+      border-radius: 50%;
+      background: var(--pink);
+      content: "";
+    }
+
+    .technology .goal-list li::before {
+      background: #9bbad2;
+    }
+
+    .interest-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
     .interest-list li {
-      padding: 5px 11px;
-      border: 1px solid #ecdce3;
-      border-radius: 20px;
-      background: #fcf5f8;
-      color: #705d69;
-      font-family: "Segoe UI", Arial, sans-serif;
+      padding: 4px 10px;
+      border: 1px solid #f0dce4;
+      border-radius: 999px;
+      color: #76596a;
+      background: #fffdfd;
       font-size: 12px;
     }
 
-    .tech-list li {
-      border-color: #d9e6ee;
-      background: #f2f7fa;
-      color: #536f83;
+    .technology .interest-list li {
+      border-color: #dce8f0;
+      color: #56718a;
     }
 
-    .signature {
-      grid-column: 1 / -1;
-      margin: 24px 0 0;
-      color: #a17a8b;
-      font-family: var(--script);
-      font-size: 16px;
+    footer {
+      padding: 12px 20px 14px;
+      border-top: 1px solid #f1eaed;
+      color: #8891a0;
+      font-size: 11px;
+      letter-spacing: 0.04em;
       text-align: center;
-    }
-
-    .visually-hidden {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      overflow: hidden;
-      clip: rect(0, 0, 0, 0);
-      white-space: nowrap;
-      clip-path: inset(50%);
     }
 
     @media (max-width: 680px) {
@@ -317,158 +279,131 @@
 
       .page {
         min-height: calc(100vh - 24px);
-        min-height: calc(100svh - 24px);
-        border-radius: 15px;
+      }
+
+      .profile-card {
+        border-radius: 18px;
       }
 
       .hero {
-        padding: 30px 18px 24px;
+        padding: 27px 18px 19px;
       }
 
-      .portrait-button {
+      .portrait-frame {
         width: 102px;
         height: 102px;
       }
 
-      main {
-        grid-template-columns: minmax(0, 1fr);
-        gap: 0;
-        padding: 4px 24px 30px;
+      .content {
+        grid-template-columns: 1fr;
+        gap: 12px;
+        padding: 0 14px 18px;
       }
 
-      .section:first-child,
-      .signature {
-        grid-column: auto;
+      .column {
+        gap: 12px;
       }
 
-      .bio {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 6px 16px;
+      .panel {
+        padding: 15px 16px;
       }
     }
 
-    @media (max-width: 390px) {
-      .bio {
-        grid-template-columns: minmax(0, 1fr);
+    @media (prefers-reduced-motion: no-preference) {
+      .profile-card {
+        animation: arrive 650ms ease-out both;
       }
-    }
 
-    @media (prefers-reduced-motion: reduce) {
-      *,
-      *::before,
-      *::after {
-        scroll-behavior: auto !important;
-        transition-duration: .01ms !important;
+      @keyframes arrive {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
       }
     }
   </style>
 </head>
 <body>
-  <article class="page">
-    <div class="top-rule" aria-hidden="true"></div>
-    <header class="hero">
-      <button class="portrait-button" id="portraitButton" type="button" aria-label="Seleccionar fotografía de perfil">
-        <span class="portrait-placeholder" id="portraitPlaceholder" aria-hidden="true">
-          <svg viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="36" cy="25" r="13" fill="#C99AAF"/>
-            <path d="M12 64c1.8-14.2 10.6-22 24-22s22.2 7.8 24 22" fill="#C99AAF"/>
-            <path d="M18 64c2-10.4 8-16 18-16s16 5.6 18 16" fill="#B7869C"/>
-          </svg>
-        </span>
-        <img id="portraitImage" alt="Fotografía de perfil" hidden>
-      </button>
-      <input class="visually-hidden" id="photoInput" type="file" accept="image/*" tabindex="-1">
-      <p class="eyebrow">Un poco sobre mí</p>
-      <h1>Tu nombre completo</h1>
-      <p class="subtitle">Estudiante · [Tu grado o carrera]</p>
-      <div class="divider" aria-hidden="true">✦</div>
-    </header>
-
-    <main>
-      <section class="section" aria-labelledby="aboutTitle">
-        <h2 id="aboutTitle"><span class="section-icon" aria-hidden="true">♡</span> Mi perfil</h2>
-        <p class="bio">
-          <span>Soy una persona curiosa y comprometida con mi aprendizaje.</span>
-          <span>Disfruto descubrir nuevas ideas y convertirlas en oportunidades.</span>
-          <span>Me caracterizo por ser responsable y perseverante.</span>
-          <span>Valoro el respeto, la empatía y el trabajo en equipo.</span>
-          <span>Procuro escuchar distintas opiniones con una mente abierta.</span>
-          <span>Cada reto me ayuda a crecer y a conocer mis fortalezas.</span>
-          <span>Me esfuerzo por dar lo mejor de mí en mis estudios.</span>
-          <span>También encuentro inspiración en las personas que me rodean.</span>
-          <span>Quiero construir un futuro que refleje mis valores y mis sueños.</span>
-        </p>
-      </section>
-
-      <section class="section" aria-labelledby="aspirationsTitle">
-        <h2 id="aspirationsTitle"><span class="section-icon" aria-hidden="true">✧</span> Aspiraciones y metas</h2>
-        <div class="goals">
-          <div class="goal">
-            <h3>A corto plazo</h3>
-            <p>Avanzar en mis estudios, fortalecer mis hábitos y aprender algo nuevo cada día.</p>
-          </div>
-          <div class="goal">
-            <h3>A largo plazo</h3>
-            <p>Graduarme, ejercer una profesión que me apasione y aportar algo positivo a mi comunidad.</p>
-          </div>
-          <div class="goal">
-            <h3>Mi sueño</h3>
-            <p>Alcanzar mis metas con propósito, bienestar y orgullo por el camino recorrido.</p>
-          </div>
+  <main class="page">
+    <article class="profile-card">
+      <header class="hero">
+        <div class="portrait-frame">
+          <img
+          class="portrait"
+            src="sarita.jpg"
+            alt="Fotografía de perfil estudiantil"
+          >
+          <span class="portrait-fallback" role="img" aria-label="Espacio para la fotografía">Tu fotografía</span>
         </div>
-      </section>
+        <p class="eyebrow">Perfil estudiantil</p>
+        <h1>Sara Maria Giraldo Ramirez</h1>
+        <p class="subtitle">Estudiante · Aprendiendo y creciendo cada día</p>
+      </header>
 
-      <section class="section" aria-labelledby="personalTitle">
-        <h2 id="personalTitle"><span class="section-icon" aria-hidden="true">♡</span> Intereses personales</h2>
-        <ul class="interest-list">
-          <li>Lectura</li>
-          <li>Música</li>
-          <li>Arte y creatividad</li>
-          <li>Naturaleza</li>
-        </ul>
-      </section>
+      <div class="content">
+        <div class="column">
+          <section class="panel profile" aria-labelledby="profile-title">
+            <h2 id="profile-title"><span class="heading-mark" aria-hidden="true">✦</span>Mi perfil</h2>
+            <p class="intro-lines">
+              <span>Soy una persona curiosa, responsable y comprometida con mi aprendizaje.</span>
+              <span>Me gusta descubrir nuevas ideas y encontrar maneras de ponerlas en práctica.</span>
+              <span>En mis estudios procuro ser constante, organizada y abierta a diferentes opiniones.</span>
+              <span>Valoro el respeto, la empatía y la colaboración con quienes me rodean.</span>
+              <span>Considero que cada experiencia es una oportunidad para mejorar.</span>
+              <span>Cuando algo se complica, intento mantener la calma y buscar soluciones.</span>
+              <span>Disfruto compartir lo que sé y aprender de las experiencias de otras personas.</span>
+              <span>Quiero fortalecer mis habilidades tanto académicas como personales.</span>
+              <span>Busco mejorar y madurar como persona.</span>
+            </p>
+          </section>
 
-      <section class="section" aria-labelledby="technologyTitle">
-        <h2 id="technologyTitle"><span class="section-icon" aria-hidden="true">⌘</span> Intereses tecnológicos</h2>
-        <ul class="interest-list tech-list">
-          <li>Diseño web</li>
-          <li>Programación</li>
-          <li>Inteligencia artificial</li>
-        </ul>
-      </section>
+          <section class="panel goals" aria-labelledby="goals-title">
+            <h2 id="goals-title"><span class="heading-mark" aria-hidden="true">◇</span>Aspiraciones, sueños y metas</h2>
+            <ul class="goal-list">
+              <li><strong>Corto plazo:</strong> Graduerme de 11, crecer mas personalmente y consolidar proyectos personales y creativos.</li>
+              <li><strong>Largo plazo:</strong>Empezar mi carrera de pasteleria, publicar un libro, viajar y conocer nuevas cosas.</li>
+              <li><strong>Mi sueño:</strong> crecer como persona y profesional, tener mi negocio propio y tener un independecia.</li>
+            </ul>
+          </section>
+        </div>
 
-      <p class="signature">Con ilusión, cada paso cuenta.</p>
-    </main>
-  </article>
-  <p class="visually-hidden" id="photoStatus" role="status" aria-live="polite"></p>
+        <div class="column">
+          <section class="panel personal" aria-labelledby="personal-title">
+            <h2 id="personal-title"><span class="heading-mark" aria-hidden="true">♡</span>Intereses personales</h2>
+            <ul class="interest-list">
+              <li>La escritura, hay encuentro mucha libertad</li>
+              <li>Escuchar música </li>
+              <li>El arte y creatividad</li>
+              <li>Compartir con mi familia</li>
+            </ul>
+          </section>
+
+          <section class="panel technology" aria-labelledby="technology-title">
+            <h2 id="technology-title"><span class="heading-mark" aria-hidden="true">⌘</span>Intereses tecnológicos</h2>
+            <ul class="interest-list">
+              <li>Programación</li>
+              <li>Diseño web</li>
+              <li>Inteligencia artificial</li>
+            </ul>
+          </section>
+        </div>
+      </div>
+
+      <footer>Con amor, pasiencia y dedicacion, todo es posible.</footer>
+    </article>
+  </main>
 
   <script>
-    const portraitButton = document.getElementById("portraitButton");
-    const photoInput = document.getElementById("photoInput");
-    const portraitImage = document.getElementById("portraitImage");
-    const portraitPlaceholder = document.getElementById("portraitPlaceholder");
-    const photoStatus = document.getElementById("photoStatus");
-    let currentPhotoUrl = null;
+    const portrait = document.querySelector(".portrait");
+    const portraitFallback = document.querySelector(".portrait-fallback");
 
-    portraitButton.addEventListener("click", () => photoInput.click());
-
-    photoInput.addEventListener("change", () => {
-      const file = photoInput.files && photoInput.files[0];
-      if (!file) return;
-
-      if (!file.type.startsWith("image/")) {
-        photoStatus.textContent = "El archivo seleccionado no es una imagen.";
-        photoInput.value = "";
-        return;
-      }
-
-      if (currentPhotoUrl) URL.revokeObjectURL(currentPhotoUrl);
-      currentPhotoUrl = URL.createObjectURL(file);
-      portraitImage.src = currentPhotoUrl;
-      portraitImage.hidden = false;
-      portraitPlaceholder.hidden = true;
-      photoStatus.textContent = "Fotografía de perfil actualizada.";
-      photoInput.value = "";
+    portrait.addEventListener("error", () => {
+      portrait.hidden = true;
+      portraitFallback.style.display = "grid";
     });
   </script>
 </body>
